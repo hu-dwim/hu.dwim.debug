@@ -48,9 +48,6 @@
 (defmethod perform ((op test-op) (system (eql (find-system :cl-new-project))))
   (operate 'load-op :cl-new-project-test)
   (in-package :cl-new-project-test)
-  (declaim (optimize (debug 3)))
-  (pushnew :debug *features*)
-  (warn "Pushed :debug in *features* and (declaim (optimize (debug 3))) was issued to help later C-c C-c'ing")
   (eval (read-from-string "(progn
                              (stefil:funcall-test-with-feedback-message 'test))"))
   (values))
