@@ -7,8 +7,6 @@
 (in-package :cl-new-project)
 
 (defpackage :cl-new-project-test
-  (:nicknames :lit)
-
   (:use :common-lisp
         :metabang-bind
         :alexandria
@@ -18,5 +16,4 @@
         :cl-syntax-sugar
         :cl-new-project)
 
-  (:export
-   #:test))
+  (:export #:test))

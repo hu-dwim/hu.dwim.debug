@@ -7,8 +7,6 @@
 (in-package :cl-user)
 
 (defpackage :cl-new-project
-  (:nicknames :li)
-
   (:use :common-lisp
         :metabang-bind
         :alexandria
