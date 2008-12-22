@@ -6,6 +6,4 @@
 
 (in-package :cl-new-project-test)
 
-(in-root-suite)
-
-(defsuite* test)
+(defsuite* (test :in root-suite))
