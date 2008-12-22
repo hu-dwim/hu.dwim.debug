@@ -1,6 +1,6 @@
 ;;; -*- mode: Lisp; Syntax: Common-Lisp; -*-
 ;;;
-;;; Copyright (c) 2007 by the authors.
+;;; Copyright (c) 2009 by the authors.
 ;;;
 ;;; See LICENCE for details.
 
