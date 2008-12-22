@@ -32,6 +32,7 @@
   :setup-readtable-function "cl-new-project::setup-readtable"
   :depends-on (:metabang-bind
                :alexandria
+               :anaphora
                :iterate
                :defclass-star
                :closer-mop
