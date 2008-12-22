@@ -12,11 +12,16 @@
 (defpackage #:cl-new-project-system
   (:use :cl :asdf :cl-syntax-sugar)
 
-  (:export #:*load-as-production-p*))
+  (:export #:*load-as-production-p*
+           #:project-relative-pathname
+           ))
 
 (in-package #:cl-new-project-system)
 
 (defvar *load-as-production-p* t)
+
+(defun project-relative-pathname (path)
+  (merge-pathnames path (component-pathname (find-system :cl-new-project))))
 
 (defsystem :cl-new-project
   :version "0.1"
