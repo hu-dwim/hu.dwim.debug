@@ -4,9 +4,9 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :cl-user)
+(in-package :hu.dwim.new-project.system)
 
-(defpackage :cl-new-project
+(defpackage :hu.dwim.new-project
   (:use :common-lisp
         :metabang-bind
         :alexandria
@@ -15,6 +15,5 @@
         :defclass-star
         :closer-mop
         :cl-def
-        :cl-syntax-sugar)
-
-  (:export))
+        :cl-syntax-sugar
+        :hu.dwim.new-project.system))

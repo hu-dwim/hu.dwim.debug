@@ -4,6 +4,6 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :cl-new-project-test)
+(in-package :hu.dwim.new-project.test)
 
 (defsuite* (test :in root-suite))

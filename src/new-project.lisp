@@ -4,4 +4,4 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :cl-new-project)
+(in-package :hu.dwim.new-project)

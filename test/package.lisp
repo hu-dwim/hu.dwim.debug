@@ -4,16 +4,18 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :cl-new-project)
+(in-package :hu.dwim.new-project.system)
 
-(defpackage :cl-new-project-test
+(defpackage :hu.dwim.new-project.test
   (:use :common-lisp
         :metabang-bind
         :alexandria
+        :anaphora
         :iterate
-        :stefil
+        :defclass-star
+        :closer-mop
         :cl-def
         :cl-syntax-sugar
-        :cl-new-project)
-
-  (:export #:test))
+        :stefil
+        :hu.dwim.new-project
+        :hu.dwim.new-project.system))

@@ -9,14 +9,14 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (asdf:oos 'asdf:load-op :cl-syntax-sugar))
 
-(defpackage #:cl-new-project-system
-  (:use :cl :asdf :cl-syntax-sugar)
+(defpackage #:hu.dwim.new-project.system
+  (:use :common-lisp :asdf :cl-syntax-sugar)
 
   (:export #:*load-as-production-p*
            #:project-relative-pathname
            ))
 
-(in-package #:cl-new-project-system)
+(in-package #:hu.dwim.new-project.system)
 
 (defvar *load-as-production-p* t)
 
@@ -24,7 +24,7 @@
   (merge-pathnames path (component-pathname (find-system :cl-new-project))))
 
 (defsystem :cl-new-project
-  :version "0.1"
+  :version "1.0"
   :author ("Attila Lendvai <attila.lendvai@gmail.com>"
 	   "Tamás Borbély <tomi.borbely@gmail.com>"
 	   "Levente Mészáros <levente.meszaros@gmail.com>")
@@ -34,7 +34,7 @@
   :licence "BSD / Public domain"
   :default-component-class cl-source-file-with-readtable
   :class system-with-readtable
-  :setup-readtable-function "cl-new-project::setup-readtable"
+  :setup-readtable-function "hu.dwim.new-project::setup-readtable"
   :depends-on (:metabang-bind
                :alexandria
                :anaphora
@@ -45,15 +45,13 @@
                :cl-syntax-sugar)
   :components
   ((:module "src"
-            :components
-            ((:file "package")
-             (:file "duplicates" :depends-on ("package"))
-             (:file "configuration" :depends-on ("duplicates"))
-             (:file "new-project" :depends-on ("configuration"))))))
+    :components ((:file "package")
+                 (:file "configuration" :depends-on ("package"))
+                 (:file "new-project" :depends-on ("configuration"))))))
 
 (defmethod perform ((op test-op) (system (eql (find-system :cl-new-project))))
   (operate 'load-op :cl-new-project-test)
-  (in-package :cl-new-project-test)
+  (in-package :hu.dwim.new-project.test)
   (eval (read-from-string "(progn
                              (stefil:funcall-test-with-feedback-message 'test))"))
   (values))

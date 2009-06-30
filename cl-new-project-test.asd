@@ -10,7 +10,7 @@
   (asdf:find-system :cl-new-project)
   (asdf:oos 'asdf:load-op :cl-syntax-sugar))
 
-(in-package :cl-new-project-system)
+(in-package :hu.dwim.new-project.system)
 
 (setf *load-as-production-p* nil)
 
@@ -18,7 +18,7 @@
   :description "Tests for cl-new-project."
   :default-component-class cl-source-file-with-readtable
   :class system-with-readtable
-  :setup-readtable-function "cl-new-project::setup-readtable"
+  :setup-readtable-function "hu.dwim.new-project::setup-readtable"
   :depends-on (:metabang-bind
                :iterate
                :stefil
@@ -27,13 +27,12 @@
                :cl-new-project)
   :components
   ((:module :test
-	    :components
-            ((:file "package")
-             (:file "suite" :depends-on ("package"))
-             (:file "new-project" :depends-on ("suite"))))))
+    :components ((:file "package")
+                 (:file "suite" :depends-on ("package"))
+                 (:file "new-project" :depends-on ("suite"))))))
 
 (defmethod perform :after ((o load-op) (c (eql (find-system :cl-new-project-test))))
-  (in-package :cl-new-project-test)
+  (in-package :hu.dwim.new-project.test)
   (pushnew :debug *features*)
   (declaim (optimize (debug 3)))
   (warn "Pushed :debug in *features* and (declaim (optimize (debug 3))) was issued to help later C-c C-c'ing"))
