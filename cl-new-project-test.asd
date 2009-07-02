@@ -19,11 +19,7 @@
   :default-component-class cl-source-file-with-readtable
   :class system-with-readtable
   :setup-readtable-function "hu.dwim.new-project::setup-readtable"
-  :depends-on (:metabang-bind
-               :iterate
-               :stefil
-               :cl-def
-               :cl-syntax-sugar
+  :depends-on (:stefil
                :cl-new-project)
   :components
   ((:module :test

@@ -42,7 +42,8 @@
                :defclass-star
                :closer-mop
                :cl-def
-               :cl-syntax-sugar)
+               :cl-syntax-sugar
+               :cl-dwim-util)
   :components
   ((:module "src"
     :components ((:file "package")

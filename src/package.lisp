@@ -16,4 +16,5 @@
         :closer-mop
         :cl-def
         :cl-syntax-sugar
+        :hu.dwim.util
         :hu.dwim.new-project.system))

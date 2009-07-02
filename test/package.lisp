@@ -17,5 +17,6 @@
         :cl-def
         :cl-syntax-sugar
         :stefil
+        :hu.dwim.util
         :hu.dwim.new-project
         :hu.dwim.new-project.system))
