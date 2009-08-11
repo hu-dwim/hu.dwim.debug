@@ -5,3 +5,6 @@
 ;;; See LICENCE for details.
 
 (in-package :hu.dwim.new-project)
+
+(def (function e) foo ()
+  42)
