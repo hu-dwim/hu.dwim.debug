@@ -6,22 +6,23 @@
 
 (in-package :asdf)
 
-(operate 'load-op :hu.dwim.asdf)
+(load-system :hu.dwim.asdf)
 
-(defsystem :hu.dwim.new-project
+(defsystem :hu.dwim.debug
   :class hu.dwim.system
   :author ("Attila Lendvai <attila.lendvai@gmail.com>"
-	   "Levente Mészáros <levente.meszaros@gmail.com>"
-	   "Tamás Borbély <tomi.borbely@gmail.com>")
+           "Levente Mészáros <levente.meszaros@gmail.com>"
+           "Tamás Borbély <tomi.borbely@gmail.com>")
   :licence "BSD / Public domain"
-  :description "Template for hu.dwim.new-project"
+  :description "Various debug utilities"
   :depends-on (:hu.dwim.common-lisp
                :hu.dwim.def
                :hu.dwim.defclass-star
-               :hu.dwim.syntax-sugar
+               :hu.dwim.syntax-sugar+hu.dwim.walker
                :hu.dwim.util
                :hu.dwim.walker)
   :components ((:module "source"
                 :components ((:file "package")
                              (:file "configuration" :depends-on ("package"))
-                             (:file "new-project" :depends-on ("configuration"))))))
+                             (:file "path-to-root" :depends-on ("configuration"))
+                             (:file "deadlock" :depends-on ("configuration"))))))

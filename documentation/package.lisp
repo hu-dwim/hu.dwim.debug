@@ -6,12 +6,12 @@
 
 (in-package :common-lisp-user)
 
-(defpackage :hu.dwim.new-project.documentation
+(defpackage :hu.dwim.debug.documentation
   (:use :hu.dwim.common-lisp
+        :hu.dwim.debug
+        :hu.dwim.debug.test
         :hu.dwim.def
         :hu.dwim.defclass-star
-        :hu.dwim.new-project
-        :hu.dwim.new-project.test
         :hu.dwim.syntax-sugar
         :hu.dwim.util
         :hu.dwim.wui))

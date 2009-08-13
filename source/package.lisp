@@ -6,7 +6,7 @@
 
 (in-package :common-lisp-user)
 
-(defpackage :hu.dwim.new-project
+(defpackage :hu.dwim.debug
   (:use :hu.dwim.asdf
         :hu.dwim.common-lisp
         :hu.dwim.def
