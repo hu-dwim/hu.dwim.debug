@@ -8,7 +8,7 @@
 
 (defpackage :hu.dwim.debug.documentation
   (:use :hu.dwim.asdf
-        :hu.dwim.common-lisp
+        :hu.dwim.common
         :hu.dwim.debug
         :hu.dwim.def
         :hu.dwim.defclass-star
