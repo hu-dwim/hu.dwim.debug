@@ -15,7 +15,7 @@
            "Tamás Borbély <tomi.borbely@gmail.com>")
   :licence "BSD / Public domain"
   :description "Various debug utilities"
-  :depends-on (:hu.dwim.common-lisp
+  :depends-on (:hu.dwim.common
                :hu.dwim.def
                :hu.dwim.defclass-star
                :hu.dwim.syntax-sugar+hu.dwim.walker
