@@ -18,11 +18,9 @@
   :depends-on (:hu.dwim.common
                :hu.dwim.def
                :hu.dwim.defclass-star
-               :hu.dwim.syntax-sugar+hu.dwim.walker
                :hu.dwim.util
                :hu.dwim.walker)
   :components ((:module "source"
                 :components ((:file "package")
-                             (:file "configuration" :depends-on ("package"))
-                             (:file "path-to-root" :depends-on ("configuration"))
-                             (:file "deadlock" :depends-on ("configuration"))))))
+                             (:file "path-to-root" :depends-on ("package"))
+                             (:file "deadlock" :depends-on ("package"))))))
