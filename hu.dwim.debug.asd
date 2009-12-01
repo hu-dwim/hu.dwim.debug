@@ -10,11 +10,7 @@
 
 (defsystem :hu.dwim.debug
   :class hu.dwim.system
-  :author ("Attila Lendvai <attila.lendvai@gmail.com>"
-           "Levente Mészáros <levente.meszaros@gmail.com>"
-           "Tamás Borbély <tomi.borbely@gmail.com>")
-  :licence "BSD / Public domain"
-  :description "Various debug utilities"
+  :description "Various debug utilities such as lexical tracing, etc."
   :depends-on (:hu.dwim.common
                :hu.dwim.def
                :hu.dwim.defclass-star
