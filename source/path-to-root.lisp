@@ -11,6 +11,11 @@
 
 (def special-variable *reference-map* nil)
 
+(def function default-root-object-p (object &optional (count nil))
+  (or (symbolp object)
+      (and count
+           (zerop count))))
+
 (def function default-ignore-reference-p (referencing-object referenced-object)
   ;; ignore nil and t which we do not want to track down with path-to-root
   (or (eq referenced-object nil)
@@ -29,7 +34,7 @@
                sb-pcl:standard-effective-slot-definition
                sb-pcl:standard-direct-slot-definition))))
 
-(def function build-reference-map (&key (ignore-reference-predicate #'default-ignore-reference-p) (initial-size (floor 1E+6)))
+(def (function e) build-reference-map (&key (ignore-reference-predicate #'default-ignore-reference-p) (initial-size (floor 1E+6)))
   ;; free some memory
   (when (find-package :swank)
     (eval (read-from-string "(swank:clear-repl-results)")))
@@ -105,7 +110,11 @@
                     (when (fboundp object)
                       (push-reference (symbol-function object))))
                    (number)
-                   ((or sb-vm::instance sb-kernel::fdefn sb-kernel::random-class sb-sys:system-area-pointer sb-ext:weak-pointer))))))
+                   (sb-ext:weak-pointer
+                    (push-reference (sb-ext:weak-pointer-value object)))
+                   (sb-kernel::fdefn
+                    (push-reference ()))
+                   ((or sb-vm::instance  sb-kernel::random-class sb-sys:system-area-pointer))))))
            :dynamic
            ;; on newer sbcl's: &optional careful t
            )
@@ -115,38 +124,32 @@
     (force-output *debug-io*)
     (sb-ext:gc :full t)))
 
-(def function build-reference-map-type-breakdown ()
+(def (function e) build-reference-map-type-breakdown ()
   (let ((type-breakdown-map (make-hash-table :test 'eq)))
     (iter (for (referenced-object referencing-objects) :in-hashtable *reference-map*)
           (incf (gethash (class-of referenced-object) type-breakdown-map 0)
                 (length referencing-objects)))
     type-breakdown-map))
 
-(def function referencing-objects-of (object)
+(def (function e) referencing-objects-of (object)
   (gethash object *reference-map*))
 
-(def function count-references (object)
+(def (function e) count-references (object)
   (length (referencing-objects-of object)))
 
-(def function find-referenced-object (predicate &key (key #'identity))
+(def (function e) find-referenced-object (predicate &key (key #'identity))
   (iter (for (referenced-object referencing-objects) :in-hashtable *reference-map*)
         (when (funcall predicate (funcall key referenced-object))
           (return referenced-object))))
 
-(def function collect-referenced-objects (predicate)
+(def (function e) collect-referenced-objects (predicate)
   (iter (for (referenced-object referencing-objects) :in-hashtable *reference-map*)
         (when (funcall predicate referenced-object)
           (collect referenced-object))))
 
-(def function default-root-object-p (object &optional (count nil))
-  (or (symbolp object)
-      (and count
-           (zerop count))))
-
-(def function collect-root-objects (&optional (root-object-predicate #'default-root-object-p))
+(def (function e) collect-root-objects (&optional (root-object-predicate #'default-root-object-p))
   (iter (for (referenced-object referencing-objects) :in-hashtable *reference-map*)
-        (when (and (zerop (length referencing-objects))
-                   (funcall root-object-predicate referenced-object))
+        (when (funcall root-object-predicate referenced-object (length referencing-objects))
           (collect referenced-object))))
 
 ;;;;;;
@@ -216,8 +219,7 @@
                                             (unless (= index -1)
                                               (cons (aref *to-be-visited-objects* index)
                                                     (collect-path (aref *referenced-object-indices* index))))))
-                                   (make-instance 'reference-path
-                                                  :elements (collect-path visit-index)))
+                                   (make-instance 'reference-path :elements (collect-path visit-index)))
                           :into result))
                       (setf (gethash visited-object *visited-objects*) t)))
                 (when (> (length result) maximum-result)
