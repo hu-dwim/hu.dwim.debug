@@ -151,7 +151,7 @@ Matrix sizes ~a x ~a and ~a x ~a don't match."
     (sb-thread::spinlock (sb-thread::spinlock-name lock))
     (sb-thread::mutex (sb-thread::mutex-name lock))))
 
-(def function find-deadlock (&optional (thread-acquired-locks-list (collect-all-locks-in-all-backtraces)))
+(def (function e) find-deadlock (&optional (thread-acquired-locks-list (collect-all-locks-in-all-backtraces)))
   (labels ((thread-of (thread-acquired-locks)
              (first thread-acquired-locks))
            (last-lock-of (thread-acquired-locks)
