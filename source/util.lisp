@@ -14,7 +14,7 @@
          ,@(when debugger-format `((break ,debugger-format values)))
          (swank::quit-inspector)
          (values-list values))
-     (return-from-break-with-values ()
+     (return-values-from-break ()
        :report (lambda (stream)
                  (format stream "Continue by returning different values from BREAK."))
        (format *debug-io* "Enter new values to return with: ")
