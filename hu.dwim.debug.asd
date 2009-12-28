@@ -17,6 +17,7 @@
                :hu.dwim.util
                :hu.dwim.walker)
   :components ((:module "source"
-                :components ((:file "package")
+                :components ((:file "deadlock" :depends-on ("package"))
+                             (:file "package")
                              (:file "path-to-root" :depends-on ("package"))
-                             (:file "deadlock" :depends-on ("package"))))))
+                             (:file "util" :depends-on ("package"))))))
