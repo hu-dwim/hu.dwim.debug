@@ -81,19 +81,41 @@ Matrix sizes ~a x ~a and ~a x ~a don't match."
   (let ((result (list)))
     (dolist (thread (sb-thread:list-all-threads))
       (call-in-thread (lambda ()
-                        (let ((locks (multiple-value-list (funcall thunk))))
-                          (push (list* thread locks) result)))
+                        (push (funcall thunk thread) result))
                       thread))
     result))
 
-(def function collect-all-locks-in-all-backtraces ()
+(def function collect-locks/inspecting-backtraces ()
   (delete-if
    (lambda (el)
      ;; drop threads without a lock
      (<= (length el) 1))
    (call-in-all-threads
-    (lambda ()
-      (collect-locks-in-backtrace)))))
+    (lambda (thread)
+      (list* thread (collect-locks-in-backtrace))))))
+
+(def function collect-locks/map-allocated-objects ()
+  (bind ((mutexes '())
+         (spinlocks '()))
+    (sb-vm::map-allocated-objects
+     (lambda (object type size)
+       (declare (ignore type size))
+       (typecase object
+         (sb-thread::mutex (push object mutexes))
+         (sb-thread::spinlock (push object spinlocks))))
+     :dynamic t)
+    (bind ((thread->lock (make-hash-table :test 'eq)))
+      (dolist (mutex mutexes)
+        (bind ((thread (sb-thread:mutex-value mutex)))
+          (when thread
+            (push mutex (gethash thread thread->lock)))))
+      (dolist (spinlock spinlocks)
+        (bind ((thread (sb-thread::spinlock-value spinlock)))
+          (when thread
+            (push spinlock (gethash thread thread->lock)))))
+      (hash-table-count thread->lock)
+      ;;(hash-table-alist thread->lock)
+      )))
 
 ;; TODO delme, sbcl's backtrace knows all this except the toplevel protection
 (def (function e) print-backtrace (stream)
@@ -120,7 +142,8 @@ Matrix sizes ~a x ~a and ~a x ~a don't match."
                           :direction :output :element-type 'character
                           :if-exists :supersede)
     (call-in-all-threads
-     (lambda ()
+     (lambda (thread)
+       (declare (ignore thread))
        (print-backtrace stream)
        (terpri stream)
        (terpri stream))))
@@ -151,7 +174,7 @@ Matrix sizes ~a x ~a and ~a x ~a don't match."
     (sb-thread::spinlock (sb-thread::spinlock-name lock))
     (sb-thread::mutex (sb-thread::mutex-name lock))))
 
-(def (function e) find-deadlock (&optional (thread-acquired-locks-list (collect-all-locks-in-all-backtraces)))
+(def (function e) find-deadlock (&optional (thread-acquired-locks-list (collect-locks/inspecting-backtraces)))
   (labels ((thread-of (thread-acquired-locks)
              (first thread-acquired-locks))
            (last-lock-of (thread-acquired-locks)

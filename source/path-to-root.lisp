@@ -115,9 +115,7 @@
                    (sb-kernel::fdefn
                     (push-reference ()))
                    ((or sb-vm::instance  sb-kernel::random-class sb-sys:system-area-pointer))))))
-           :dynamic
-           ;; on newer sbcl's: &optional careful t
-           )
+           :dynamic t)
           (setf *reference-map* reference-map)))
     ;; free some memory in internal structures
     (format *debug-io* "Before final gc~%")
