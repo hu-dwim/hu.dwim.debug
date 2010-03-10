@@ -12,5 +12,6 @@
         :hu.dwim.def
         :hu.dwim.defclass-star
         :hu.dwim.syntax-sugar
-        :hu.dwim.util)
+        :hu.dwim.util
+        :hu.dwim.walker)
   (:readtable-setup (enable-standard-hu.dwim-syntaxes)))
