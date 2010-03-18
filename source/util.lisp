@@ -8,9 +8,13 @@
 
 (def (macro e) break* ((&key io-format debugger-format inspect) &body forms)
   `(restart-case
-       (bind ((values (multiple-value-list ,@forms)))
+       (bind ((values (multiple-value-list (progn ,@forms)))
+              (single-value (if (length= values 1)
+                                (first values)
+                                values)))
+         (declare (ignorable single-value))
          ,@(when io-format `((format *debug-io* ,io-format values)))
-         ,@(when inspect `((swank::inspect-in-emacs values :wait #f)))
+         ,@(when inspect `((swank::inspect-in-emacs single-value :wait #f)))
          ,@(when debugger-format `((break ,debugger-format values)))
          (swank::quit-inspector)
          (values-list values))
