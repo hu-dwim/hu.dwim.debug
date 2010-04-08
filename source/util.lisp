@@ -11,7 +11,10 @@
        (bind ((values (multiple-value-list (progn ,@forms)))
               (single-value (if (length= values 1)
                                 (first values)
-                                values)))
+                                values))
+              ;; KLUDGE the rest is here to make swank happy...
+              (swank::*buffer-package* *package*)
+              (swank::*buffer-readtable* *readtable*))
          (declare (ignorable single-value))
          ,@(when io-format `((format *debug-io* ,io-format values)))
          ,@(when inspect `((swank::inspect-in-emacs single-value :wait #f)))
