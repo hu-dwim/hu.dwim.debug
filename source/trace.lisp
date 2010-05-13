@@ -20,7 +20,11 @@
 (def layer lexical-trace (hu.dwim.walker::ignore-undefined-references)
   ())
 
-(def (macro e) with-lexical-trace ((&key &allow-other-keys) &body forms)
+(def (macro e) with-lexical-trace (&body forms)
+  `(with-lexical-trace* ()
+     ,@forms))
+
+(def (macro e) with-lexical-trace* ((&key &allow-other-keys) &body forms)
   (contextl:with-active-layers (lexical-trace)
     (unwalk-form (walk-form `(progn ,@forms)))))
 
