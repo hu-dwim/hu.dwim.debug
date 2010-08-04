@@ -36,7 +36,8 @@
 
 (def (function e) build-reference-map (&key (ignore-reference-predicate #'default-ignore-reference-p) (initial-size (floor 1E+6)))
   ;; free some memory
-  (swank:clear-repl-results)
+  ;; TODO: depending on swank is not enough
+  (eval (read-from-string "(swank:clear-repl-results)"))
   (setf *reference-map* nil)
   (format *debug-io* "Before initial gc~%")
   (force-output *debug-io*)
