@@ -15,7 +15,8 @@
                :hu.dwim.def
                :hu.dwim.defclass-star
                :hu.dwim.util
-               :hu.dwim.walker)
+               :hu.dwim.walker
+               :swank)
   :components ((:module "source"
                 :components (#+sbcl(:file "deadlock" :depends-on ("package"))
                              (:file "package")
