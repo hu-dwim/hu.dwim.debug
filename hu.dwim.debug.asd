@@ -12,7 +12,7 @@
   :class hu.dwim.system
   :description "Various debug utilities such as lexical tracing, etc."
   :depends-on (:hu.dwim.common
-               :hu.dwim.def
+               :hu.dwim.def+swank
                :hu.dwim.defclass-star
                :hu.dwim.util
                :hu.dwim.walker
