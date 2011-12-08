@@ -15,5 +15,5 @@
   :components ((:module "test"
                 :components ((:file "package")
                              (:file "suite" :depends-on ("package"))
-                             (:file "deadlock" :depends-on ("suite"))
+                             ;; it's SBCL only, and SBCL now has deadlock detection (:file "deadlock" :depends-on ("suite"))
                              (:file "path-to-root" :depends-on ("suite"))))))
