@@ -17,7 +17,8 @@
       (and count
            (zerop count))))
 
-(def function default-ignore-reference-p (referencing-object referenced-object)
+(def function ignore-reference? (referencing-object referenced-object)
+  "A default implementation to test whether to ignore a reference or not when recording the references."
   ;; ignore nil and t which we do not want to track down with path-to-root
   (or (eq referenced-object nil)
       (eq referenced-object t)
@@ -35,7 +36,8 @@
                sb-pcl:standard-effective-slot-definition
                sb-pcl:standard-direct-slot-definition))))
 
-(def (function e) build-reference-map (&key (ignore-reference-predicate #'default-ignore-reference-p) (initial-size (floor 1E+6)))
+(def (function e) build-reference-map (&key (ignore-reference-predicate #'ignore-reference?) (initial-size (floor 1E+6)))
+  "Stop the GC, build a hashtable of referenced-object -> referrers using SB-VM::MAP-ALLOCATED-OBJECTS (while hoping that there's enough free memory left for this), and then store it in *REFERENCE-MAP* to be used later by PATH-TO-ROOT queries."
   ;; free some memory
   ;; TODO: depending on swank is not enough
   (eval (read-from-string "(swank:clear-repl-results)"))
