@@ -11,7 +11,8 @@
 
 (def special-variable *reference-map* nil)
 
-(def function default-root-object-p (object &optional (count nil))
+(def function root-object? (object &optional (count nil))
+  "A default implementation to test whether an object qualifies as 'root' object."
   (or (symbolp object)
       (and count
            (zerop count))))
@@ -145,7 +146,7 @@
         (when (funcall predicate referenced-object)
           (collect referenced-object))))
 
-(def (function e) collect-root-objects (&optional (root-object-predicate #'default-root-object-p))
+(def (function e) collect-root-objects (&optional (root-object-predicate #'root-object?))
   (iter (for (referenced-object referencing-objects) :in-hashtable *reference-map*)
         (when (funcall root-object-predicate referenced-object (length referencing-objects))
           (collect referenced-object))))
@@ -179,7 +180,7 @@
 
 (def (function e) path-to-root (object &key (initial-capacity 1000) (maximum-capacity 100000)
                                        (maximum-iteration 10000) (maximum-level 100) (maximum-result 100)
-                                       (root-object-predicate #'default-root-object-p))
+                                       (root-object-predicate #'root-object?))
   (prog1
       (let ((*reference-map* *reference-map*)
             (*visited-objects* (make-hash-table :size initial-capacity :test 'eq))
