@@ -6,6 +6,9 @@
 
 (in-package :hu.dwim.debug)
 
+;; (sb-vm::memory-usage :print-spaces t :print-summary nil)
+;; (sb-vm:instance-usage :dynamic :top-n 100)
+
 ;;;;;;
 ;;; Reference map
 
