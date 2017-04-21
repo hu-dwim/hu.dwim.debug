@@ -57,7 +57,7 @@
               (cons-set (make-hash-table :size initial-size :test 'eq)))
           (sb-vm::map-allocated-objects
            (lambda (object type size)
-             (declare (ignore size))
+             (declare (ignore type size))
              (labels ((cons* (element-1 element-2)
                         (let ((cons-object (cons element-1 element-2)))
                           (setf (gethash cons-object cons-set) t)
@@ -81,9 +81,9 @@
                     ;; slots are recorded in the instance vector
                     (push-reference (sb-pcl::std-instance-slots object)))
                    (function
-                    (cond ((= type sb-vm:simple-fun-header-widetag)
+                    (cond ((sb-kernel:simple-fun-p object)
                            (push-reference (sb-kernel:fun-code-header object)))
-                          ((= type sb-vm:closure-header-widetag)
+                          ((sb-kernel:closurep object)
                            (push-reference (sb-kernel:%closure-fun object))
                            (iter (for i :from 0 :below (1- (sb-kernel:get-closure-length object)))
                                  (push-reference (sb-kernel:%closure-index-ref object i))))
