@@ -6,6 +6,8 @@
 
 (in-package :hu.dwim.debug)
 
+;;; NOTE: this may have been obsoleted by :sb-traceroot, see https://github.com/sbcl/sbcl/commit/2402dfd196bdc2912de76db3753d48fd6ba54805
+
 ;; (sb-vm::memory-usage :print-spaces t :print-summary nil)
 ;; (sb-vm:instance-usage :dynamic :top-n 100)
 
