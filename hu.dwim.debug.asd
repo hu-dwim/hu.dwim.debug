@@ -19,6 +19,5 @@
                              ;; disable this because it's bitrotten, sbcl-only, and sbcl now has deadlock detection
                              ;; (:file "deadlock" :depends-on ("package"))
                              (:file "package")
-                             #+sbcl(:file "path-to-root" :depends-on ("package"))
                              (:file "trace" :depends-on ("package"))
                              (:file "util" :depends-on ("package"))))))
